@@ -1,5 +1,8 @@
 import requests
 import json
+import re
+import os
+from docx import Document
 
 API_URL = "http://127.0.0.1:8000/generate_sop"
 HEALTH_CHECK_URL = "http://127.0.0.1:8000/"
@@ -30,8 +33,25 @@ def generate_sop_example(topic: str, details: str = ""):
         response = requests.post(API_URL, data=json.dumps(payload), headers=headers, timeout=1500)
         response.raise_for_status()
         sop_data = response.json()
-        print("\n" + sop_data.get("sop"))
+        sop_content = sop_data.get("sop")
+        print("\n" + sop_content)
         print("-------------------------------------------------------")
+        sanitized_topic = re.sub(r'[^a-zA-Z0-9\s]', '', topic)
+        sanitized_topic = sanitized_topic.replace(' ', '_')[:50]
+            
+        output_dir = "examples/generated_sops"
+        os.makedirs(output_dir, exist_ok=True)
+            
+        file_name = os.path.join(output_dir, f"SOP_{sanitized_topic}.docx")
+            
+        doc = Document()
+            
+        for line in sop_content.splitlines():
+            doc.add_paragraph(line)
+            
+        doc.save(file_name)
+            
+        print(f"SOP saved to: {file_name}")
     except requests.exceptions.Timeout:
         print(f"ERROR: Request timed out for topic: '{topic}'. The LLM might be taking too long.")
     except requests.exceptions.RequestException as e:
