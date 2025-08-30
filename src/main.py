@@ -8,8 +8,8 @@ from src.web_search_service import perform_web_search
 from config import OLLAMA_MODEL_NAME
 
 app = FastAPI(
-    title="SOPhi: IT SOP AI Assistant",
-    description="Generates IT-facing SOPs using a local LLM (Ollama), internal knowledge base (ChromaDB), and real-time web search (SerpAPI).",
+    title="SOPhi: SOP AI Assistant",
+    description="Generates SOPs using a local LLM (Ollama), internal knowledge base (ChromaDB), and real-time web search (SerpAPI).",
     version="1.0.0"
 )
 
@@ -19,7 +19,7 @@ class SOPRequest(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "IT SOP AI Assistant API is running!", "ollama_model": OLLAMA_MODEL_NAME}
+    return {"message": "SOP AI Assistant API is running!", "ollama_model": OLLAMA_MODEL_NAME}
 
 
 @app.post("/generate_sop")
@@ -40,7 +40,7 @@ async def generate_sop(request: SOPRequest):
         print(f"Retrieved {len(internal_docs)} relevant internal document chunks.")
 
         print(f"Performing web search for: '{request.topic}'")
-        web_search_query = f"IT SOP {request.topic} best practices {request.details}".strip()
+        web_search_query = f"SOP {request.topic} best practices {request.details}".strip()
         web_context = perform_web_search(web_search_query, num_results=3)
         
         if web_context:
@@ -51,8 +51,10 @@ async def generate_sop(request: SOPRequest):
             web_context_formatted = "\n\n--- External Information (Web Search) ---\nNo relevant external information found."
 
         prompt_template = f"""
-        You are an expert AI assistant specializing in generating detailed, practical, and IT-facing Standard Operating Procedures (SOPs).
-        Your goal is to provide clear, concise, and actionable instructions for IT professionals.
+        You are an expert AI assistant specializing in generating detailed and practical Standard Operating Procedures (SOPs).
+        Your goal is to provide clear, concise, and actionable instructions for professionals.
+        Use clear headings, bullet points, and code blocks for commands where appropriate.
+        Tone is professional, direct, and unambiguous, suitable for staff.
         
         Generate a comprehensive SOP for the following request.
         
@@ -70,15 +72,12 @@ async def generate_sop(request: SOPRequest):
         ---
 
         **Instructions for SOP Generation:**
-        1.  **Title:** Start with a clear and descriptive title for the SOP.
-        2.  **Purpose:** Briefly state the purpose of this SOP.
-        3.  **Scope:** Define what this SOP covers and what it does not.
-        4.  **Prerequisites:** List any tools, access, or prior conditions required.
-        5.  **Steps:** Provide numbered, step-by-step instructions. Be highly detailed and explicit.
-        6.  **Troubleshooting (Optional):** Include common issues and their resolutions if applicable.
-        7.  **References (Optional):** If specific internal documents or external articles were heavily used, you can reference them generally.
-        8.  **Format:** Use clear headings, bullet points, and code blocks for commands where appropriate.
-        9.  **Tone:** Professional, direct, and unambiguous, suitable for IT staff.
+        1.  Title: Start with a clear and descriptive title for the SOP.
+        2.  Purpose: Briefly state the purpose of this SOP.
+        3.  Scope: Define what this SOP covers and what it does not.
+        4.  Prerequisites: List any tools, access, or prior conditions required.
+        5.  Steps: Provide numbered, step-by-step instructions. Be highly detailed and explicit.
+        6.  Troubleshooting: Include common issues and their resolutions if applicable.
 
         **Generated SOP:**
         """
