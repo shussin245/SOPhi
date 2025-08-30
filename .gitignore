@@ -15,5 +15,5 @@ __pycache__/
 data/embeddings/
 data/raw_sops/*
 
-#Environment variables and API keys
+#Env variables and API keys
 .env
