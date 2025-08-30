@@ -9,11 +9,12 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
-.DS_Store # macOS-specific file
+.DS_Store
 
 #Data directories
 data/embeddings/
-data/raw_sops/
+data/raw_sops/*
+!data/raw_sops/.gitkeep
 
 #Environment variables and API keys
 .env
