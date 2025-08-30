@@ -27,7 +27,7 @@ def generate_sop_example(topic: str, details: str = ""):
 
     print(f"\n--- Requesting SOP for: '{topic}' (Details: '{details}') ---")
     try:
-        response = requests.post(API_URL, data=json.dumps(payload), headers=headers, timeout=300)
+        response = requests.post(API_URL, data=json.dumps(payload), headers=headers, timeout=1500)
         response.raise_for_status()
         sop_data = response.json()
         print("\n" + sop_data.get("sop"))
