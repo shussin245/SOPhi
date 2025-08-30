@@ -14,7 +14,6 @@ __pycache__/
 #Data directories
 data/embeddings/
 data/raw_sops/*
-!data/raw_sops/.gitkeep
 
 #Environment variables and API keys
 .env
