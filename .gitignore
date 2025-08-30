@@ -1,0 +1,19 @@
+#Virtual environment
+venv/
+.venv/
+env/
+
+#Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.DS_Store # macOS-specific file
+
+#Data directories
+data/embeddings/
+data/raw_sops/
+
+#Environment variables and API keys
+.env
