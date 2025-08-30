@@ -46,8 +46,3 @@ if __name__ == "__main__":
         topic="New Employee Onboarding: IT Setup for MacBook Pro",
         details="Include steps for account creation, device provisioning (MacBook Pro M1), software installation (Office 365, VS Code), network access, and security best practices."
     )
-    
-    generate_sop_example(
-        topic="Cybersecurity Incident Response: Phishing Attack",
-        details="Focus on initial detection, containment, eradication, and reporting steps for an employee-reported phishing email targeting credentials."
-    )
