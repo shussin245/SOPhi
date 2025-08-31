@@ -1,6 +1,4 @@
 # SOPhi: AI SOP Assistant
-Generate accurate, up-to-date Standard Operating Procedures (SOPs) using a local LLM, an internal knowledge base, and real-time web search.
-
 ---
 
 ## Overview
